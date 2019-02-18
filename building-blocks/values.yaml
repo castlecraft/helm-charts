@@ -22,6 +22,18 @@ tolerations: []
 
 affinity: {}
 
+global:
+  mongodumpCronJob:
+    enabled: false
+    image:
+      repository: registry.gitlab.com/castlecraft/docker-craft/debian-mongodb-mongodump:latest
+    schedule: "0 */24 * * *"
+    accessKey: access_key
+    region: US
+    host: sgp1.digitaloceanspaces.com
+    bucket: mntechnique
+    secretKey: secret_key
+
 authorization-server:
   sessionSecret: "secret"
   ingress:
@@ -77,17 +89,19 @@ infrastructure-console:
       certmanager.k8s.io/cluster-issuer: letsencrypt-prod
     path: /
     hosts:
-      - myaccount.castlecraft.in
+      - admin.castlecraft.in
     tls:
-      - secretName: myaccount-castlecraft-in-tls
+      - secretName: admin-castlecraft-in-tls
         hosts:
-          - myaccount.castlecraft.in
+          - admin.castlecraft.in
 
 mongodb:
   mongodbRootPassword: admin
   mongodbUsername: building-blocks
   mongodbDatabase: building-blocks
   mongodbPassword: admin
+  replicaSet:
+    enabled: true
   # Enable persistent storage
   persistence:
     enabled: true
@@ -104,12 +118,3 @@ redis:
       enabled: true
       size: 1Gi
       # storageClass: do-block-storage
-
-rabbitmq:
-  rabbitmq:
-    username: admin
-    password: admin
-  persistence:
-    enabled: true
-    # storageClass: do-block-storage
-    size: 1Gi

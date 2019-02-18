@@ -17,6 +17,20 @@ service:
   port: 4100
 
 NODE_ENV: production
+dbName: "communication-server"
+dbUser: "communication-server"
+
+global:
+  mongodumpCronJob:
+    enabled: false
+    image:
+      repository: registry.gitlab.com/castlecraft/docker-craft/debian-mongodb-mongodump:latest
+    schedule: "0 */24 * * *"
+    accessKey: access_key
+    region: US
+    host: sgp1.digitaloceanspaces.com
+    bucket: mntechnique
+    secretKey: secret_key
 
 ingress:
   enabled: true
@@ -49,17 +63,3 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
-
-persistence:
-  enabled: true
-  size: 1Gi
-  # storageClass: do-block-storage
-
-rabbitmq:
-  rabbitmq:
-    username: admin
-    password: admin
-  persistence:
-    enabled: true
-    # storageClass: do-block-storage
-    size: 1Gi

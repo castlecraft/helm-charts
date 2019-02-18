@@ -19,29 +19,17 @@ spec:
         app.kubernetes.io/name: {{ include "identity-provider.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
-      volumes:
-        - name: {{ .Release.Name }}-identity-provider-data
-      {{- if .Values.persistence.enabled }}
-          persistentVolumeClaim:
-            claimName: {{ .Release.Name }}-identity-provider-data
-
-      {{- else }}
-          emptyDir: {}
-      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          volumeMounts:
-            - name : {{ .Release.Name }}-identity-provider-data
-              mountPath : "/home/craft/identity-provider/files"
           env:
             - name: "DB_HOST"
               value: {{ template "mongodb.fullname" . }}
             - name: "DB_NAME"
-              value: "identity-provider"
+              value: {{ .Values.dbName }}
             - name: "DB_USER"
-              value: "identity-provider"
+              value: {{ .Values.dbUser }}
             - name: "DB_PASSWORD"
               valueFrom:
                 secretKeyRef:

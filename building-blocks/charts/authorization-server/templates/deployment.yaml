@@ -19,22 +19,10 @@ spec:
         app.kubernetes.io/name: {{ include "authorization-server.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
-      volumes:
-        - name: {{ .Release.Name }}-authorization-server-data
-      {{- if .Values.persistence.enabled }}
-          persistentVolumeClaim:
-            claimName: {{ .Release.Name }}-authorization-server-data
-
-      {{- else }}
-          emptyDir: {}
-      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          volumeMounts:
-            - name : {{ .Release.Name }}-authorization-server-data
-              mountPath : "/home/craft/authorization-server/files"
           env:
             - name: "BULL_QUEUE_REDIS_HOST"
               value: {{ template "redis.fullname" . }}-master
@@ -44,7 +32,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key:  sessionSecret
-                  name: {{ .Release.Name }}-authorization-server-secrets
+                  name: {{ .Release.Name }}-secrets
             - name: "EXPIRY_DAYS"
               value: "1"
             - name: "COOKIE_MAX_AGE"
@@ -56,9 +44,9 @@ spec:
             - name: "DB_HOST"
               value: {{ template "mongodb.fullname" . }}
             - name: "DB_NAME"
-              value: "authorization-server"
+              value: {{ .Values.dbName }}
             - name: "DB_USER"
-              value: "authorization-server"
+              value: {{ .Values.dbUser }}
             - name: "DB_PASSWORD"
               valueFrom:
                 secretKeyRef:

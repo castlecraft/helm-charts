@@ -19,29 +19,17 @@ spec:
         app.kubernetes.io/name: {{ include "infrastructure-console.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
-      volumes:
-        - name: {{ .Release.Name }}-infrastructure-console-data
-      {{- if .Values.persistence.enabled }}
-          persistentVolumeClaim:
-            claimName: {{ .Release.Name }}-infrastructure-console-data
-
-      {{- else }}
-          emptyDir: {}
-      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          volumeMounts:
-            - name : {{ .Release.Name }}-infrastructure-console-data
-              mountPath : "/home/craft/infrastructure-console/files"
           env:
             - name: "DB_HOST"
               value: {{ template "mongodb.fullname" . }}
             - name: "DB_NAME"
-              value: "infrastructure-console"
+              value: {{ .Values.dbName }}
             - name: "DB_USER"
-              value: "infrastructure-console"
+              value: {{ .Values.dbUser }}
             - name: "DB_PASSWORD"
               valueFrom:
                 secretKeyRef:
