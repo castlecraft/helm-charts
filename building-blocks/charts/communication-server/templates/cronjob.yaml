@@ -1,0 +1,44 @@
+{{- if .Values.global.mongodumpCronJob.enabled }}
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ .Release.Name }}-communication-server-cronjob
+spec:
+  schedule: {{ .Values.global.mongodumpCronJob.schedule }}
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: {{ .Release.Name }}-mongodump
+            image: {{ .Values.global.mongodumpCronJob.image.repository }}
+            env:
+              - name: "MONGODB_HOST"
+                value: {{ template "mongodb.fullname" . }}
+              - name: "MONGODB_ROOT_PASSWORD"
+                valueFrom:
+                  secretKeyRef:
+                    key:  mongodbRootPassword
+                    name: {{ .Release.Name }}-secrets
+              - name: "ARCHIVE_PREFIX"
+                value: {{ .Release.Name }}
+              - name: "ACCESS_KEY"
+                valueFrom:
+                  secretKeyRef:
+                    key: storageAccessKey
+                    name: {{ .Release.Name }}-secrets
+              - name: "REGION"
+                value: {{ .Values.global.mongodumpCronJob.region }}
+              - name: "STORAGE_HOST"
+                value: {{ .Values.global.mongodumpCronJob.host }}
+              - name: "BUCKET"
+                value: {{ .Values.global.mongodumpCronJob.bucket }}
+              - name: "SECRET_KEY"
+                valueFrom:
+                  secretKeyRef:
+                    key: storageSecretKey
+                    name: {{ .Release.Name }}-secrets
+              - name: "DB_NAME_TO_BACKUP"
+                value: {{ .Values.dbName }}
+          restartPolicy: Never
+{{- end }}
