@@ -1,0 +1,8 @@
+dependencies:
+- name: redis
+  version: 5.3.0
+  repository: https://kubernetes-charts.storage.googleapis.com/
+- name: accounting-server
+  repository: file://charts/accounting-server
+- name: management-console
+  repository: file://charts/management-console

@@ -19,6 +19,7 @@ service:
 NODE_ENV: production
 dbName: "communication-server"
 dbUser: "communication-server"
+dbHost: "global-mongodb.mongodb.svc.cluster.local"
 
 global:
   mongodumpCronJob:

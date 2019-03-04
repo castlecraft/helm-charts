@@ -19,6 +19,7 @@ service:
 NODE_ENV: production
 dbName: "infrastructure-console"
 dbUser: "infrastructure-console"
+dbHost: "global-mongodb.mongodb.svc.cluster.local"
 
 global:
   mongodumpCronJob:

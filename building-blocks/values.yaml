@@ -22,20 +22,10 @@ tolerations: []
 
 affinity: {}
 
-global:
-  mongodumpCronJob:
-    enabled: false
-    image:
-      repository: registry.gitlab.com/castlecraft/docker-craft/debian-mongodb-mongodump:latest
-    schedule: "0 */24 * * *"
-    accessKey: access_key
-    region: US
-    host: sgp1.digitaloceanspaces.com
-    bucket: mntechnique
-    secretKey: secret_key
-
 authorization-server:
-  sessionSecret: "secret"
+  dbUser: "as-castlecraft-in"
+  dbName: "as-castlecraft-in"
+  sessionSecret: secret
   ingress:
     enabled: true
     annotations:
@@ -51,6 +41,8 @@ authorization-server:
           - accounts.castlecraft.in
 
 communication-server:
+  dbUser: "cs-castlecraft-in"
+  dbName: "cs-castlecraft-in"
   ingress:
     enabled: true
     annotations:
@@ -66,6 +58,8 @@ communication-server:
           - connect.castlecraft.in
 
 identity-provider:
+  dbUser: "idp-castlecraft-in"
+  dbName: "idp-castlecraft-in"
   ingress:
     enabled: true
     annotations:
@@ -81,6 +75,8 @@ identity-provider:
           - myaccount.castlecraft.in
 
 infrastructure-console:
+  dbUser: "ic-castlecraft-in"
+  dbName: "ic-castlecraft-in"
   ingress:
     enabled: true
     annotations:
@@ -96,20 +92,14 @@ infrastructure-console:
           - admin.castlecraft.in
 
 mongodb:
-  mongodbRootPassword: admin
-  mongodbUsername: building-blocks
-  mongodbDatabase: building-blocks
-  mongodbPassword: admin
-  replicaSet:
-    enabled: true
-  # Enable persistent storage
-  persistence:
-    enabled: true
-    # storageClass: do-block-storage
-    size: 1Gi
+  authorizationServerMongodbPassword: secret
+  communicationServerMongodbPassword: secret
+  identityProviderMongodbPassword: secret
+  infrastructureConsoleMongodbPassword: secret
 
 redis:
-  usePassword: false
+  usePassword: true
+  password: secret
   networkPolicy:
     enabled: true
     allowExternal: true
