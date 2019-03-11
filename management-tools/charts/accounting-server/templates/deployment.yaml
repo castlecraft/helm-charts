@@ -25,7 +25,11 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: "BULL_QUEUE_REDIS_HOST"
+            {{- if .Values.redisHost }}
+              value: {{ .Values.redisHost }}
+            {{- else }}
               value: {{ template "redis.fullname" . }}-master
+            {{- end }}
             - name: "BULL_QUEUE_REDIS_PORT"
               value: "6379"
             - name: "BULL_QUEUE_REDIS_PASSWORD"
