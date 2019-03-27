@@ -1,0 +1,65 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ include "invoice-server.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "invoice-server.name" . }}
+    helm.sh/chart: {{ include "invoice-server.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "invoice-server.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "invoice-server.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: "DB_HOST"
+              value: {{ .Values.mongodbHost }}
+            - name: "DB_NAME"
+              value: {{ .Values.mongodbDatabase }}
+            - name: "DB_USER"
+              value: {{ .Values.mongodbUsername }}
+            - name: "DB_PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  key:  invoiceServerMongodbPassword
+                  name: {{ .Release.Name }}-secrets
+            - name: "NODE_ENV"
+              value: {{ .Values.NODE_ENV }}
+          ports:
+            - name: http
+              containerPort: 6200
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /info
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /info
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

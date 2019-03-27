@@ -6,3 +6,5 @@ dependencies:
   repository: file://charts/accounting-server
 - name: management-console
   repository: file://charts/management-console
+- name: invoice-server
+  repository: file://charts/invoice-server
