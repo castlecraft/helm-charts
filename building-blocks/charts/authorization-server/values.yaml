@@ -9,6 +9,11 @@ image:
   tag: latest
   pullPolicy: Always
 
+frontendImage:
+  repository: registry.gitlab.com/castlecraft/building-blocks/authorization-client
+  tag: latest
+  pullPolicy: Always
+
 nameOverride: ""
 fullnameOverride: ""
 
@@ -33,7 +38,7 @@ NODE_ENV: production
 
 service:
   type: ClusterIP
-  port: 3000
+  port: 8080
 
 ingress:
   enabled: true

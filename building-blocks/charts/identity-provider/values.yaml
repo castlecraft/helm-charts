@@ -9,12 +9,17 @@ image:
   tag: latest
   pullPolicy: Always
 
+frontendImage:
+  repository: registry.gitlab.com/castlecraft/building-blocks/identity-client
+  tag: latest
+  pullPolicy: Always
+
 nameOverride: ""
 fullnameOverride: ""
 
 service:
   type: ClusterIP
-  port: 3200
+  port: 8080
 
 NODE_ENV: production
 dbName: "identity-provider"
