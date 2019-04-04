@@ -5,6 +5,11 @@ image:
   tag: latest
   pullPolicy: IfNotPresent
 
+frontendImage:
+  repository: registry.gitlab.com/castlecraft/management-tools/invoicing-client
+  tag: latest
+  pullPolicy: Always
+
 nameOverride: ""
 fullnameOverride: ""
 
@@ -12,7 +17,7 @@ NODE_ENV: production
 
 service:
   type: ClusterIP
-  port: 6200
+  port: 8080
 
 ingress:
   enabled: true
