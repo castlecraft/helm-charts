@@ -39,11 +39,11 @@ spec:
               value: {{ .Values.NODE_ENV }}
           livenessProbe:
             httpGet:
-              path: /info
+              path: /api/info
               port: 6200
           readinessProbe:
             httpGet:
-              path: /info
+              path: /api/info
               port: 6200
         - name: {{ .Chart.Name }}-frontend
           image: "{{ .Values.frontendImage.repository }}:{{ .Values.frontendImage.tag }}"
