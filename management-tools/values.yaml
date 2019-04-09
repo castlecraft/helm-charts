@@ -63,9 +63,9 @@ invoice-server:
   image:
     tag: edge
   # Mongodb Credentials
-  dbUsername: "stg-inv-castlecraft-in"
-  dbDatabase: "stg-inv-castlecraft-in"
-  dbPassword: "secret"
+  mongodbUsername: "stg-inv-castlecraft-in"
+  mongodbDatabase: "stg-inv-castlecraft-in"
+  mongodbPassword: "secret"
   ingress:
     enabled: true
     annotations:
