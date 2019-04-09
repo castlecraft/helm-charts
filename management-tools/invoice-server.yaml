@@ -16,7 +16,7 @@ NODE_ENV: production
 
 service:
   type: ClusterIP
-  port: 6200
+  port: 8080
 
 ingress:
   enabled: true
