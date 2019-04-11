@@ -41,6 +41,8 @@ accounting-server:
 management-console:
   image:
     tag: edge
+  frontendImage:
+    tag: edge
   # Mongodb Credentials
   dbUsername: "stg-man-castlecraft-in"
   dbDatabase: "stg-man-castlecraft-in"
@@ -62,7 +64,9 @@ management-console:
 invoice-server:
   image:
     tag: edge
-  # Mongodb Credentials
+  frontendImage:
+    tag: edge
+  # Mongodb credentials
   mongodbUsername: "stg-inv-castlecraft-in"
   mongodbDatabase: "stg-inv-castlecraft-in"
   mongodbPassword: "secret"
