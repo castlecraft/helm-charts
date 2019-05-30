@@ -65,3 +65,13 @@ mongodbHost: "global-mongodb.mongodb.svc.cluster.local"
 mongodbUsername: "accounting-server"
 mongodbPassword: "admin"
 mongodbDatabase: "accounting-server"
+
+redis:
+  usePassword: true
+  password: secret
+  networkPolicy:
+    enabled: true
+    allowExternal: true
+  master:
+    persistence:
+      enabled: false
