@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: registry.gitlab.com/castlecraft/management-tools/accounting-server
-  tag: edge
+  tag: latest
   pullPolicy: Always
 
 nameOverride: ""
@@ -27,11 +27,11 @@ ingress:
   paths:
     - /
   hosts:
-    - staging-accounting2.castlecraft.in
+    - accounting.castlecraft.in
   tls:
-    - secretName: staging-accounting2-castlecraft-in-tls
+    - secretName: accounting-castlecraft-in-prod-tls
       hosts:
-        - staging-accounting2.castlecraft.in
+        - accounting.castlecraft.in
     # - secretName: accounting-castlecraft-in-staging-tls
     #   hosts:
     #     - staging-accounting.castlecraft.in
@@ -58,15 +58,20 @@ affinity: {}
 postgresqlHost: "global-postgresql-postgresql.postgresql.svc.cluster.local"
 postgresqlUsername: "postgres"
 postgresqlPassword: "secret"
-postgresqlDatabase: "stg-acc2-castlecraft-in"
+postgresqlDatabase: "accounting"
 
 # Mongodb credentials
 mongodbHost: "global-mongodb.mongodb.svc.cluster.local"
-mongodbUsername: "stg-acc2-castlecraft-in"
-mongodbPassword: "secret"
-mongodbDatabase: "stg-acc2-castlecraft-in"
+mongodbUsername: "accounting-server"
+mongodbPassword: "admin"
+mongodbDatabase: "accounting-server"
 
-# Redis Host
-enableSecret: true
-redisHost: "stg-acc2-redis-master.management-tools.svc.cluster.local"
-redisPassword: "secret"
+redis:
+  usePassword: true
+  password: secret
+  networkPolicy:
+    enabled: true
+    allowExternal: true
+  master:
+    persistence:
+      enabled: false
