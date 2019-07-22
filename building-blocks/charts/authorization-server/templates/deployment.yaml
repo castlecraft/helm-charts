@@ -7,8 +7,6 @@ metadata:
     helm.sh/chart: {{ include "authorization-server.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
-  annotations:
-    timestamp: "{{ .Release.Time.Seconds }}"
 spec:
   {{- if .Values.enableRollingUpdate }}
   strategy:
@@ -24,6 +22,8 @@ spec:
       labels:
         app.kubernetes.io/name: {{ include "authorization-server.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
+      annotations:
+        timestamp: "{{ .Release.Time.Seconds }}"
     spec:
       containers:
         - name: {{ .Chart.Name }}-backend
