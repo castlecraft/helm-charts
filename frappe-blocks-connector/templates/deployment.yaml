@@ -5,6 +5,10 @@ metadata:
   labels:
 {{ include "frappe-blocks-connector.labels" . | indent 4 }}
 spec:
+  {{- if .Values.enableRollingUpdate }}
+  strategy:
+    type: RollingUpdate
+  {{- end }}
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
@@ -15,6 +19,8 @@ spec:
       labels:
         app.kubernetes.io/name: {{ include "frappe-blocks-connector.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
+      annotations:
+        timestamp: "{{ .Release.Time.Seconds }}"
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
