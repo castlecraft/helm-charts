@@ -17,6 +17,10 @@ frontendImage:
 nameOverride: ""
 fullnameOverride: ""
 
+enableRollingUpdate: false
+cookieMaxAge: !!string "7.884e+9"
+sessionName: "AS_SESSION"
+tokenValidity: !!string "3600"
 dbName: "authorization-server"
 dbUser: "authorization-server"
 dbHost: "global-mongodb.mongodb.svc.cluster.local"

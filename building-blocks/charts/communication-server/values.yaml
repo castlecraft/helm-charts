@@ -16,6 +16,7 @@ service:
   type: ClusterIP
   port: 4100
 
+enableRollingUpdate: false
 NODE_ENV: production
 dbName: "communication-server"
 dbUser: "communication-server"

@@ -7,7 +7,12 @@ metadata:
     helm.sh/chart: {{ include "authorization-server.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
+    date: "{{ .Release.Time.Seconds }}"
 spec:
+  {{- if .Values.enableRollingUpdate }}
+  strategy:
+    type: RollingUpdate
+  {{- end }}
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
@@ -49,11 +54,11 @@ spec:
             - name: "EXPIRY_DAYS"
               value: "1"
             - name: "COOKIE_MAX_AGE"
-              value: "86400000"
+              value: {{ .Values.cookieMaxAge | quote }}
             - name: "SESSION_NAME"
-              value: "AS_SESSION"
+              value: {{ .Values.sessionName }}
             - name: "TOKEN_VALIDITY"
-              value: "3600"
+              value: {{ .Values.tokenValidity | quote }}
             - name: "DB_HOST"
               value: {{ .Values.dbHost }}
             - name: "DB_NAME"
