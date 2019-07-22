@@ -7,7 +7,8 @@ metadata:
     helm.sh/chart: {{ include "infrastructure-console.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
-    date: "{{ .Release.Time.Seconds }}"
+  annotations:
+    timestamp: "{{ .Release.Time.Seconds }}"
 spec:
   {{- if .Values.enableRollingUpdate }}
   strategy:
