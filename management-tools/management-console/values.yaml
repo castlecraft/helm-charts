@@ -59,6 +59,7 @@ tolerations: []
 
 affinity: {}
 
+enableRollingUpdate: false
 # Mongodb Credentials
 dbUsername: management-console
 dbDatabase: management-console

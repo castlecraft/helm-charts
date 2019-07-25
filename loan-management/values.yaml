@@ -59,6 +59,7 @@ tolerations: []
 
 affinity: {}
 
+enableRollingUpdate: false
 # Mongodb Credentials
 dbUsername: loan-management-server
 dbDatabase: loan-management-server

@@ -59,6 +59,7 @@ tolerations: []
 
 affinity: {}
 
+enableRollingUpdate: false
 # Mongodb Credentials
 dbUsername: customer-service
 dbDatabase: customer-service

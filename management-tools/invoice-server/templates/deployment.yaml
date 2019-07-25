@@ -8,6 +8,10 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
+  {{- if .Values.enableRollingUpdate }}
+  strategy:
+    type: RollingUpdate
+  {{- end }}
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
@@ -18,6 +22,8 @@ spec:
       labels:
         app.kubernetes.io/name: {{ include "invoice-server.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
+      annotations:
+        timestamp: "{{ .Release.Time.Seconds }}"
     spec:
       containers:
         - name: {{ .Chart.Name }}

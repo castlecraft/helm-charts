@@ -66,6 +66,8 @@ mongodbUsername: "accounting-server"
 mongodbPassword: "admin"
 mongodbDatabase: "accounting-server"
 
+enableRollingUpdate: false
+
 redis:
   usePassword: true
   password: secret
