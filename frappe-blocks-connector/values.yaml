@@ -63,3 +63,8 @@ dbUsername: frappe-connector
 dbDatabase: frappe-connector
 dbPassword: admin
 dbHost: "global-mongodb.mongodb.svc.cluster.local"
+enableEventStore: false
+eventStoreHost: "global-eventstore.eventstore.svc.cluster.local"
+eventStoreStream: "$fbc-staging"
+eventStoreUser: "admin"
+eventStorePassword: "changeit"
