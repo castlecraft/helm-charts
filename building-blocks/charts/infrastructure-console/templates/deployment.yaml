@@ -39,18 +39,35 @@ spec:
             - name: "DB_PASSWORD"
               valueFrom:
                 secretKeyRef:
-                  key:  infrastructureConsoleMongodbPassword
+                  key: infrastructureConsoleMongodbPassword
                   name: {{ .Release.Name }}-secrets
+            {{- if .Values.enableEventStore }}
+            - name: "ES_HOST"
+              value: {{ .Values.eventStoreHost }}
+            - name: "ES_STREAM"
+              value: {{ .Values.eventStoreStream }}
+            - name: "ES_USER"
+              value: {{ .Values.eventStoreUser }}
+            - name: "ES_PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  key: infrastructureConsoleEventStorePassword
+                  name: {{ .Release.Name }}-secrets
+            {{- end }}
             - name: "NODE_ENV"
               value: {{ .Values.NODE_ENV }}
           livenessProbe:
+            initialDelaySeconds: {{ .Values.initialDelaySeconds }}
             httpGet:
-              path: /info
+              path: /api/healthz
               port: 5000
           readinessProbe:
+            initialDelaySeconds: {{ .Values.initialDelaySeconds }}
             httpGet:
-              path: /info
+              path: /api/healthz
               port: 5000
+          resources:
+            {{ toYaml .Values.resources | nindent 12 }}
         - name: {{ .Chart.Name }}-frontend
           image: "{{ .Values.frontendImage.repository }}:{{ .Values.frontendImage.tag }}"
           imagePullPolicy: {{ .Values.frontendImage.pullPolicy }}
@@ -66,8 +83,6 @@ spec:
             httpGet:
               path: /
               port: http
-          resources:
-{{ toYaml .Values.resources | indent 12 }}
     {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}

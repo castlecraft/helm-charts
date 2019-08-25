@@ -39,8 +39,21 @@ spec:
             - name: "DB_PASSWORD"
               valueFrom:
                 secretKeyRef:
-                  key:  communicationServerMongodbPassword
+                  key: communicationServerMongodbPassword
                   name: {{ .Release.Name }}-secrets
+            {{- if .Values.enableEventStore }}
+            - name: "ES_HOST"
+              value: {{ .Values.eventStoreHost }}
+            - name: "ES_STREAM"
+              value: {{ .Values.eventStoreStream }}
+            - name: "ES_USER"
+              value: {{ .Values.eventStoreUser }}
+            - name: "ES_PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  key: communicationServerEventStorePassword
+                  name: {{ .Release.Name }}-secrets
+            {{- end }}
             - name: "NODE_ENV"
               value: {{ .Values.NODE_ENV }}
           ports:
@@ -48,12 +61,14 @@ spec:
               containerPort: 4100
               protocol: TCP
           livenessProbe:
+            initialDelaySeconds: {{ .Values.initialDelaySeconds }}
             httpGet:
-              path: /info
+              path: /api/healthz
               port: http
           readinessProbe:
+            initialDelaySeconds: {{ .Values.initialDelaySeconds }}
             httpGet:
-              path: /info
+              path: /api/healthz
               port: http
           resources:
 {{ toYaml .Values.resources | indent 12 }}

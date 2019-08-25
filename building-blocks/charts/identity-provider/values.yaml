@@ -22,22 +22,15 @@ service:
   port: 8080
 
 NODE_ENV: production
+initialDelaySeconds: 30
 dbName: "identity-provider"
 dbUser: "identity-provider"
 dbHost: "global-mongodb.mongodb.svc.cluster.local"
 enableRollingUpdate: false
-
-global:
-  mongodumpCronJob:
-    enabled: false
-    image:
-      repository: registry.gitlab.com/castlecraft/docker-craft/debian-mongodb-mongodump:latest
-    schedule: "0 */24 * * *"
-    accessKey: access_key
-    region: US
-    host: sgp1.digitaloceanspaces.com
-    bucket: mntechnique
-    secretKey: secret_key
+enableEventStore: false
+eventStoreHost: "global-eventstore.eventstore.svc.cluster.local"
+eventStoreStream: "$bb-staging"
+eventStoreUser: "admin"
 
 ingress:
   enabled: true

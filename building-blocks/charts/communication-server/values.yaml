@@ -17,22 +17,15 @@ service:
   port: 4100
 
 enableRollingUpdate: false
+initialDelaySeconds: 30
 NODE_ENV: production
 dbName: "communication-server"
 dbUser: "communication-server"
 dbHost: "global-mongodb.mongodb.svc.cluster.local"
-
-global:
-  mongodumpCronJob:
-    enabled: false
-    image:
-      repository: registry.gitlab.com/castlecraft/docker-craft/debian-mongodb-mongodump:latest
-    schedule: "0 */24 * * *"
-    accessKey: access_key
-    region: US
-    host: sgp1.digitaloceanspaces.com
-    bucket: mntechnique
-    secretKey: secret_key
+enableEventStore: false
+eventStoreHost: "global-eventstore.eventstore.svc.cluster.local"
+eventStoreStream: "$bb-staging"
+eventStoreUser: "admin"
 
 ingress:
   enabled: true

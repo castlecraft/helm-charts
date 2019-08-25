@@ -18,6 +18,7 @@ nameOverride: ""
 fullnameOverride: ""
 
 enableRollingUpdate: false
+initialDelaySeconds: 30
 cookieMaxAge: !!string "7.884e+9"
 sessionName: "AS_SESSION"
 tokenValidity: !!string "3600"
@@ -25,19 +26,10 @@ dbName: "authorization-server"
 dbUser: "authorization-server"
 dbHost: "global-mongodb.mongodb.svc.cluster.local"
 redisHost: "global-redis-master.redis.svc.cluster.local"
-
-global:
-  mongodumpCronJob:
-    enabled: false
-    image:
-      repository: registry.gitlab.com/castlecraft/docker-craft/debian-mongodb-mongodump:latest
-    schedule: "0 */24 * * *"
-    accessKey: access_key
-    region: US
-    host: sgp1.digitaloceanspaces.com
-    bucket: mntechnique
-    secretKey: secret_key
-
+enableEventStore: false
+eventStoreHost: "global-eventstore.eventstore.svc.cluster.local"
+eventStoreStream: "$bb-staging"
+eventStoreUser: "admin"
 NODE_ENV: production
 
 service:
