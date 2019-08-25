@@ -58,6 +58,7 @@ tolerations: []
 affinity: {}
 
 enableRollingUpdate: false
+initialDelaySeconds: 30
 dbUsername: frappe-connector
 dbDatabase: frappe-connector
 dbPassword: admin

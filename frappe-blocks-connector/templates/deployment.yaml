@@ -45,10 +45,12 @@ spec:
             - name: "NODE_ENV"
               value: {{ .Values.NODE_ENV }}
           livenessProbe:
+            initialDelaySeconds: {{ .Values.initialDelaySeconds }}
             httpGet:
               path: /info
               port: 3300
           readinessProbe:
+            initialDelaySeconds: {{ .Values.initialDelaySeconds }}
             httpGet:
               path: /info
               port: 3300
