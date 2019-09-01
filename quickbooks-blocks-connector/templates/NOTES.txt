@@ -1,0 +1,1 @@
+Frappe Connector Chart Successfully Installed

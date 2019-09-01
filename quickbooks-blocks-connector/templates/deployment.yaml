@@ -1,0 +1,98 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "quickbooks-blocks-connector.fullname" . }}
+  labels:
+{{ include "quickbooks-blocks-connector.labels" . | indent 4 }}
+spec:
+  {{- if .Values.enableRollingUpdate }}
+  strategy:
+    type: RollingUpdate
+  {{- end }}
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "quickbooks-blocks-connector.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "quickbooks-blocks-connector.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+      annotations:
+        timestamp: "{{ .Release.Time.Seconds }}"
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}-backend
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: "DB_HOST"
+              value: {{ .Values.dbHost }}
+            - name: "DB_NAME"
+              value: {{ .Values.dbDatabase }}
+            - name: "DB_USER"
+              value: {{ .Values.dbUsername }}
+            - name: "DB_PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  key:  quickbooksConnectorDbPassword
+                  name: {{ .Release.Name }}-secrets
+            {{- if .Values.enableEventStore }}
+            - name: "ES_HOST"
+              value: {{ .Values.eventStoreHost }}
+            - name: "ES_STREAM"
+              value: {{ .Values.eventStoreStream }}
+            - name: "ES_USER"
+              value: {{ .Values.eventStoreUser }}
+            - name: "ES_PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  key: quickbooksConnectorEventStorePassword
+                  name: {{ .Release.Name }}-secrets
+            {{- end }}
+            - name: "NODE_ENV"
+              value: {{ .Values.NODE_ENV }}
+          livenessProbe:
+            initialDelaySeconds: {{ .Values.initialDelaySeconds }}
+            httpGet:
+              path: /api/healthz
+              port: 3300
+          readinessProbe:
+            initialDelaySeconds: {{ .Values.initialDelaySeconds }}
+            httpGet:
+              path: /api/healthz
+              port: 3300
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+        - name: {{ .Chart.Name }}-frontend
+          image: "{{ .Values.frontendImage.repository }}:{{ .Values.frontendImage.tag }}"
+          imagePullPolicy: {{ .Values.frontendImage.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
