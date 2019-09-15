@@ -109,18 +109,6 @@ mongodb:
   identityProviderMongodbPassword: secret
   infrastructureConsoleMongodbPassword: secret
 
-redis:
-  usePassword: true
-  password: secret
-  networkPolicy:
-    enabled: true
-    allowExternal: true
-  master:
-    persistence:
-      enabled: false
-      size: 1Gi
-      # storageClass: do-block-storage
-
 eventStore:
   authorizationServerEventStorePassword: "changeit"
   communicationServerEventStorePassword: "changeit"

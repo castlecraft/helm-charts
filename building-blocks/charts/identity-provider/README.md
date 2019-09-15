@@ -35,6 +35,5 @@ $ kubectl apply -f certificate.yaml
 
 Notes:
 
-- PersistentVolumeClaim for 1Gi for storing app data, mongodb data and redis' data
+- PersistentVolumeClaim for 1Gi for storing app data, mongodb data
 - annotations for ingress certmanager.k8s.io/cluster-issuer: letsencrypt-prod the issuer created above.
-- Redis Chart is customised based on simple docker-compose like setup with no cluster

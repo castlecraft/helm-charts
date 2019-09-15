@@ -37,18 +37,3 @@ Create mongodb host name
 {{- define "mongodb.fullname" -}}
 {{- printf "%s-%s" .Release.Name "mongodb" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
-
-{{/*
-Create redis host name
-*/}}
-{{- define "redis.fullname" -}}
-{{- printf "%s-%s" .Release.Name "redis" | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
-
-{{/*
-Create rabbitmq host name
-*/}}
-{{- define "rabbitmq.fullname" -}}
-{{- printf "%s-%s" .Release.Name "rabbitmq" | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
-

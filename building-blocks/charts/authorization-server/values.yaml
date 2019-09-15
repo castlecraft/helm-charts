@@ -25,7 +25,6 @@ tokenValidity: !!string "3600"
 dbName: "authorization-server"
 dbUser: "authorization-server"
 dbHost: "global-mongodb.mongodb.svc.cluster.local"
-redisHost: "global-redis-master.redis.svc.cluster.local"
 enableEventStore: false
 eventStoreHost: "global-eventstore.eventstore.svc.cluster.local"
 eventStoreStream: "$bb-staging"

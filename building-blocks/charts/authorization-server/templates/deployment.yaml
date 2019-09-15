@@ -40,15 +40,6 @@ spec:
               path: /api/healthz
               port: 3000
           env:
-            - name: "BULL_QUEUE_REDIS_HOST"
-              value: {{ template "redis.fullname" . }}-master
-            - name: "BULL_QUEUE_REDIS_PASSWORD"
-              valueFrom:
-                secretKeyRef:
-                  key:  bullQueueRedisPassword
-                  name: {{ .Release.Name }}-secrets
-            - name: "BULL_QUEUE_REDIS_PORT"
-              value: "6379"
             - name: "SESSION_SECRET"
               valueFrom:
                 secretKeyRef:

@@ -7,7 +7,6 @@ helm install --name authorization-server-staging \
     --set NODE_ENV=staging \
     --set sessionSecret=SuperSecretString \
     --set persistence.enabled=false \
-    --set redis.master.persistence.enabled=false \
     --set mongodb.persistence.enabled=false \
     --set image.tag=edge \
     --set ingress.annotations."certmanager\.k8s\.io/cluster-issuer"=letsencrypt-prod \
@@ -37,6 +36,5 @@ $ kubectl apply -f cert-manager-ingress/certificate.yaml
 
 Notes:
 
-- PersistentVolumeClaim for 1Gi for storing app data, mongodb data and redis' data
+- PersistentVolumeClaim for 1Gi for storing app data, mongodb data
 - annotations for ingress certmanager.k8s.io/cluster-issuer: letsencrypt-prod the issuer created above.
-- Redis Chart is customised based on simple docker-compose like setup with no cluster
