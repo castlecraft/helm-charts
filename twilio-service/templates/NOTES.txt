@@ -1,0 +1,2 @@
+This application has no service or ports exposed.
+It only listens to event patterns.
