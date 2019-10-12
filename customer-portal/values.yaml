@@ -1,16 +1,16 @@
-# Default values for customer-service.
+# Default values for customer-portal.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
 
 image:
-  repository: registry.gitlab.com/castlecraft/management-tools/customer-service
+  repository: registry.gitlab.com/castlecraft/customer-portal/customer-service
   tag: latest
   pullPolicy: Always
 
 frontendImage:
-  repository: registry.gitlab.com/castlecraft/management-tools/customer-portal
+  repository: registry.gitlab.com/castlecraft/customer-portal/customer-client
   tag: latest
   pullPolicy: Always
 
@@ -61,7 +61,7 @@ affinity: {}
 
 enableRollingUpdate: false
 # Mongodb Credentials
-dbUsername: customer-service
-dbDatabase: customer-service
+dbUsername: customer-portal
+dbDatabase: customer-portal
 dbPassword: admin
 dbHost: "global-mongodb.mongodb.svc.cluster.local"
