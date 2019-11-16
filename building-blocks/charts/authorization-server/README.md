@@ -37,4 +37,4 @@ $ kubectl apply -f cert-manager-ingress/certificate.yaml
 Notes:
 
 - PersistentVolumeClaim for 1Gi for storing app data, mongodb data
-- annotations for ingress certmanager.k8s.io/cluster-issuer: letsencrypt-prod the issuer created above.
+- annotations for ingress cert-manager.io/cluster-issuer: letsencrypt-prod the issuer created above.

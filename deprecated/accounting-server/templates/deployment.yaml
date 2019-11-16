@@ -23,7 +23,7 @@ spec:
         app.kubernetes.io/name: {{ include "accounting-server.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
       annotations:
-        timestamp: "{{ .Release.Time.Seconds }}"
+        timestamp: "{{ .Release.timestamp: "{{ date "20060102150405" .Release.Time }}" }}"
     spec:
       containers:
         - name: {{ .Chart.Name }}

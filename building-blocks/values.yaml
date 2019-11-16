@@ -34,7 +34,7 @@ authorization-server:
     annotations:
       kubernetes.io/ingress.class: nginx
       kubernetes.io/tls-acme: "true"
-      certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+      cert-manager.io/cluster-issuer: letsencrypt-prod
     path: /
     hosts:
       - accounts.castlecraft.in
@@ -54,7 +54,7 @@ communication-server:
     annotations:
       kubernetes.io/ingress.class: nginx
       kubernetes.io/tls-acme: "true"
-      certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+      cert-manager.io/cluster-issuer: letsencrypt-prod
     path: /
     hosts:
       - connect.castlecraft.in
@@ -74,7 +74,7 @@ identity-provider:
     annotations:
       kubernetes.io/ingress.class: nginx
       kubernetes.io/tls-acme: "true"
-      certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+      cert-manager.io/cluster-issuer: letsencrypt-prod
     path: /
     hosts:
       - myaccount.castlecraft.in
@@ -94,7 +94,7 @@ infrastructure-console:
     annotations:
       kubernetes.io/ingress.class: nginx
       kubernetes.io/tls-acme: "true"
-      certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+      cert-manager.io/cluster-issuer: letsencrypt-prod
     path: /
     hosts:
       - admin.castlecraft.in
