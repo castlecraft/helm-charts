@@ -26,7 +26,7 @@ authorization-server:
   dbUser: "as-castlecraft-in"
   dbName: "as-castlecraft-in"
   sessionSecret: secret
-  enableEventStore: true
+  enableEventStore: false
   eventStoreStream: "$bb-staging"
   eventStoreUser: "admin"
   ingress:
@@ -46,7 +46,7 @@ authorization-server:
 communication-server:
   dbUser: "cs-castlecraft-in"
   dbName: "cs-castlecraft-in"
-  enableEventStore: true
+  enableEventStore: false
   eventStoreStream: "$bb-staging"
   eventStoreUser: "admin"
   ingress:
@@ -66,7 +66,7 @@ communication-server:
 identity-provider:
   dbUser: "idp-castlecraft-in"
   dbName: "idp-castlecraft-in"
-  enableEventStore: true
+  enableEventStore: false
   eventStoreStream: "$bb-staging"
   eventStoreUser: "admin"
   ingress:
@@ -86,7 +86,7 @@ identity-provider:
 infrastructure-console:
   dbUser: "ic-castlecraft-in"
   dbName: "ic-castlecraft-in"
-  enableEventStore: true
+  enableEventStore: false
   eventStoreStream: "$bb-staging"
   eventStoreUser: "admin"
   ingress:
